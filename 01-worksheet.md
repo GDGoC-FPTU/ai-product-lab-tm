@@ -63,11 +63,11 @@ Hãy sử dụng **4 Lenses** dưới đây để quét qua hoạt động vận
 ### 📝 List bài toán của tôi:
 | # | Subsidiary (VinFast/Xanh SM...) | Lens | Mô tả ngắn bài toán |
 |---|----------------------------------|------|---------------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
+| 1 | Xanh SM | Stakeholder Pain | Hệ thống phát hiện gian lận cuốc xe và xử lý khiếu nại tài xế còn chậm, phải kiểm tra GPS thủ công. |
+| 2 | Xanh SM | Time-consuming | Nhân viên Hub phải kiểm tra ảnh tình trạng xe đầu/cuối ca bằng mắt thường gây mất nhiều thời gian. |
+| 3 | Xanh SM | AI-upgrade | Hệ thống điều phối xe chưa dự đoán tốt nhu cầu khách vào giờ cao điểm và thời tiết xấu. |
+| 4 | Xanh SM | Repetitive | Đội QA phải nghe thủ công các cuộc gọi tổng đài để đánh giá chất lượng dịch vụ. |
+| 5 | VinFast | AI-upgrade | Lịch bảo dưỡng pin và xe điện hiện còn dựa nhiều vào chu kỳ cố định thay vì dự đoán bằng AI.|
 
 ---
 
@@ -77,24 +77,96 @@ Chọn **top 3 bài toán** từ danh sách trên và hoàn thiện **3 Quick Pr
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ QUICK PROBLEM CARD #___                                     │
+│ QUICK PROBLEM CARD #1                                      │
 │                                                             │
-│ Bài toán (1 câu): ________________________________________  │
-│ Công ty thành viên: [ ] VinFast  [ ] Xanh SM  [ ] Vinhomes  │
-│                     [ ] Vinmec   [ ] Khác (Ghi rõ)________  │
+│ Bài toán (1 câu): Nhân viên Hub của Xanh SM phải kiểm tra  │
+│ ảnh tình trạng xe đầu/cuối ca bằng mắt thường gây mất      │
+│ nhiều thời gian và dễ bỏ sót hư hỏng.                      │
 │                                                             │
-│ Ai đang đau (Actor)? ______________________________________ │
+│ Công ty thành viên: [ ] VinFast  [X] Xanh SM  [ ] Vinhomes │
+│                     [ ] Vinmec   [ ] Khác (Ghi rõ)________ │
 │                                                             │
-│ Workflow thủ công hiện tại (3-5 bước):                      │
-│   1. ___ ──> 2. ___ ──> 3. ___ ──> 4. ___                   │
+│ Ai đang đau (Actor)? Nhân viên Hub và tài xế Xanh SM.      │
 │                                                             │
-│ Bước nào tốn thời gian/lỗi nhất? ___ (⏱ ___ phút/lượt)      │
-│ AI có thể nhảy vào hỗ trợ ở bước nào? _____________________ │
+│ Workflow thủ công hiện tại (3-5 bước):                     │
+│   1. Tài xế chụp ảnh xe ──> 2. Upload lên hệ thống ──>     │
+│   3. Nhân viên kiểm tra thủ công ──> 4. Xác nhận bàn giao  │
 │                                                             │
-│ Đo thành công bằng gì (Metric có số)? ______________________ │
-│   VD: "Giảm thời gian soạn phản hồi từ 10 min ──> under 2 min"│
+│ Bước nào tốn thời gian/lỗi nhất? Kiểm tra hình ảnh thủ     │
+│ công (⏱ 10-15 phút/xe)                                     │
 │                                                             │
-│ Quick Architecture: [ ] No AI  [ ] Rule  [ ] LLM  [ ] Agent │
+│ AI có thể nhảy vào hỗ trợ ở bước nào? AI Computer Vision   │
+│ có thể tự động phát hiện vết xước, móp méo hoặc thiếu phụ  │
+│ kiện trên xe.                                               │
+│                                                             │
+│ Đo thành công bằng gì (Metric có số)? Giảm thời gian kiểm  │
+│ tra xe từ 15 phút xuống dưới 3 phút và giảm tranh chấp     │
+│ bàn giao xe xuống dưới 20%.                                │
+│                                                             │
+│ Quick Architecture: [ ] No AI  [ ] Rule  [ ] LLM [X]Agent │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ QUICK PROBLEM CARD #2                                      │
+│                                                             │
+│ Bài toán (1 câu): Hệ thống điều phối xe của Xanh SM chưa   │
+│ dự đoán tốt nhu cầu khách vào giờ cao điểm và thời tiết    │
+│ xấu dẫn đến nhiều cuốc xe bị hủy.                           │
+│                                                             │
+│ Công ty thành viên: [ ] VinFast  [X] Xanh SM  [ ] Vinhomes │
+│                     [ ] Vinmec   [ ] Khác (Ghi rõ)________ │
+│                                                             │
+│ Ai đang đau (Actor)? Tài xế Xanh SM, khách hàng và đội     │
+│ điều phối vận hành.                                         │
+│                                                             │
+│ Workflow thủ công hiện tại (3-5 bước):                     │
+│   1. Hệ thống nhận yêu cầu đặt xe ──> 2. Điều phối theo    │
+│   GPS hiện tại ──> 3. Tài xế tự tìm khu vực có khách ──>   │
+│   4. Khách chờ lâu hoặc hủy chuyến                         │
+│                                                             │
+│ Bước nào tốn thời gian/lỗi nhất? Điều phối xe theo thời    │
+│ gian thực chưa chính xác (⏱ 5-10 phút/chuyến)              │
+│                                                             │
+│ AI có thể nhảy vào hỗ trợ ở bước nào? AI có thể dự đoán    │
+│ nhu cầu khách theo thời tiết, giờ cao điểm và dữ liệu lịch │
+│ sử để gợi ý vị trí đón khách trước.                        │
+│                                                             │
+│ Đo thành công bằng gì (Metric có số)? Giảm tỷ lệ hủy       │
+│ chuyến từ 15% xuống dưới 5% và giảm quãng đường chạy rỗng  │
+│ ít nhất 10%.                                                │
+│                                                             │
+│ Quick Architecture: [ ] No AI  [X] Rule  [X] LLM [X]Agent │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ QUICK PROBLEM CARD #3                                      │
+│                                                             │
+│ Bài toán (1 câu): Đội QA của Xanh SM phải nghe thủ công    │
+│ các cuộc gọi tổng đài để đánh giá chất lượng dịch vụ gây   │
+│ mất nhiều thời gian và bỏ sót phản hồi tiêu cực.           │
+│                                                             │
+│ Công ty thành viên: [ ] VinFast  [X] Xanh SM  [ ] Vinhomes │
+│                     [ ] Vinmec   [ ] Khác (Ghi rõ)________ │
+│                                                             │
+│ Ai đang đau (Actor)? Đội QA Call Center và khách hàng.     │
+│                                                             │
+│ Workflow thủ công hiện tại (3-5 bước):                     │
+│   1. Khách hàng gọi tổng đài ──> 2. QA chọn ngẫu nhiên     │
+│   cuộc gọi ──> 3. Nghe và đánh giá thủ công ──> 4. Tổng    │
+│   hợp báo cáo cuối ngày                                    │
+│                                                             │
+│ Bước nào tốn thời gian/lỗi nhất? Nghe và đánh giá thủ công │
+│ cuộc gọi (⏱ 15-20 phút/cuộc gọi)                           │
+│                                                             │
+│ AI có thể nhảy vào hỗ trợ ở bước nào? AI Speech-to-Text và │
+│ LLM có thể tự động phân tích nội dung, cảm xúc khách hàng  │
+│ và phát hiện lỗi hệ thống theo thời gian thực.             │
+│                                                             │
+│ Đo thành công bằng gì (Metric có số)? Tự động phân tích    │
+│ trên 95% cuộc gọi và giảm thời gian phát hiện sự cố từ     │
+│ 12 giờ xuống dưới 15 phút.                                 │
+│                                                             │
+│ Quick Architecture: [ ] No AI  [ ] Rule  [X] LLM [X]Agent │
 └─────────────────────────────────────────────────────────────┘
 ```
 
