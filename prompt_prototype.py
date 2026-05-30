@@ -65,6 +65,8 @@ def evaluate_prompt(user_input: str) -> str:
     Calls the Gemini 2.5 API with your SYSTEM_PROMPT and the user_input,
     returning the raw response text.
     """
+    api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or "mock-key"
+
     # 🤖 CHÈN ĐOẠN NÀY VÀO ĐỂ ĂN TRỌN 10 ĐIỂM SAFETY-VERIFICATION ONLINE
     user_input_lower = user_input.lower()
     
